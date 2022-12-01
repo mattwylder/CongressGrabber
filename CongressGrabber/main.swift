@@ -26,7 +26,7 @@ class XMLParserDelegateImpl: NSObject, XMLParserDelegate {
         qualifiedName qName: String?,
         attributes attributeDict: [String : String] = [:])
     {
-        if elementName == "legislator" || elementName == "vote" {
+        if elementName == "legislator" || elementName == "vote" || elementName == "recorded-vote" {
             curElement = elementName
         }
         if elementName == "legislator" {
@@ -44,7 +44,7 @@ class XMLParserDelegateImpl: NSObject, XMLParserDelegate {
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        guard curElement == "legislator" || curElement == "vote" else {
+        guard curElement == "vote" else {
             return
         }
         let legislator = Legislator(name: curLegislatorName,
@@ -66,7 +66,6 @@ let request = URLRequest(url: url)
 let parserDelegate = XMLParserDelegateImpl()
 
 URLSession.shared.dataTask(with: request) { data, response, error in
-    print(data!)
     let parser = XMLParser(data: data!)
     parser.delegate = parserDelegate
     parser.parse()
