@@ -43,8 +43,12 @@ class XMLParserDelegateImpl: NSObject, XMLParserDelegate {
         }
     }
 
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        guard curElement == "vote" else {
+    func parser(
+        _ parser: XMLParser,
+        didEndElement elementName: String,
+        namespaceURI: String?,
+        qualifiedName qName: String?) {
+        guard elementName == "vote" else {
             return
         }
         let legislator = Legislator(name: curLegislatorName,
